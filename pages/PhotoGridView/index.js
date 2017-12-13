@@ -5,6 +5,7 @@ import PhotoGrid from 'react-native-photo-grid';
 import FlickrImage from "../components/FlickrImage";
 import {Routes} from "../Router";
 
+import { hook } from 'cavy';
 
 const GridItem = styled.TouchableOpacity`
 	width: ${({itemSize}) => itemSize};
@@ -12,25 +13,25 @@ const GridItem = styled.TouchableOpacity`
 `;
 
 
-
-const renderItem = (navigate) => (item, itemSize) =>
+const renderItem = (navigate, generateTestHook) => (item, itemSize) =>
 	<GridItem key={item.id}
+			  ref={generateTestHook(`FlickrItem.${item.id}`)}
 			  itemSize={itemSize}
 			  onPress={() => navigate(Routes.PREVIEW, item)}>
 		<FlickrImage item={item}/>
 	</GridItem>;
 
-const PhotoGridView = ({screenProps, navigation: {navigate}}) => (
+const PhotoGridView = ({screenProps, navigation: {navigate}, generateTestHook}) => (
 	<ScrollView>
 		<PhotoGrid
 			data={screenProps}
 			itemsPerRow={3}
 			itemMargin={1}
-			renderItem={renderItem(navigate)}
+			renderItem={renderItem(navigate, generateTestHook)}
 		/>
 	</ScrollView>
 );
 
 
-export default PhotoGridView;
+export default hook(PhotoGridView);
 

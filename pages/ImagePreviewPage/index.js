@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 import {Routes} from '../Router'
 import FlickrImage from '../components/FlickrImage'
 import Description from './components/Description'
-
+import { hook } from 'cavy';
 
 const Container = styled.View`
 	flex: 1;
@@ -18,9 +18,9 @@ const Wrapper = styled.TouchableOpacity`
 
 
 
-const ImagePreviewPage = ({navigation: {navigate, state: {params: item}}}) => (
+const ImagePreviewPage = ({navigation: {navigate, state: {params: item}}, generateTestHook}) => (
 	<Container>
-		<Wrapper onPress={() => navigate(Routes.GRID)}>
+		<Wrapper ref={generateTestHook(`FlickPreview.${item.id}`)} onPress={() => navigate(Routes.GRID)}>
 			<FlickrImage item={item}/>
 			<Description item={item}/>
 		</Wrapper>
@@ -28,5 +28,5 @@ const ImagePreviewPage = ({navigation: {navigate, state: {params: item}}}) => (
 );
 
 
-export default ImagePreviewPage;
+export default hook(ImagePreviewPage);
 
